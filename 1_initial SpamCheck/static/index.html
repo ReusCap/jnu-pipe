@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Spam Checker</title>
+  </head>
+  <body>
+    <h1>스팸 체크기</h1>
+
+    <textarea
+      id="text"
+      rows="5"
+      cols="60"
+      placeholder="스팸으로 의심되는 메시지를 붙여넣어주세요!"
+    ></textarea><br><br>
+    <button onclick="classify()">분류</button>
+    <h3 id="result"></h3>
+
+    <script>
+      function classify() {
+        const text = document.getElementById("text").value;
+
+        fetch("/classify", {
+          method: "POST",
+          body: JSON.stringify({ text })
+        })
+          .then(res => res.json())
+          .then(data => {
+            document.getElementById("result").innerText =
+              "결과: " + data.label + " (score=" + data.score + ")";
+          })
+          .catch(() => {
+            document.getElementById("result").innerText = "에러발생";
+          });
+      }
+    </script>
+  </body>
+</html>
