@@ -4,6 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from app.spam import check_spam
 from pydantic import BaseModel
 import logging
+from app.issue import *
+import traceback
 
 logging.basicConfig(
     level=logging.INFO,
@@ -61,16 +63,33 @@ async def classify(payload: ClassifyRequest):
         }
 
     except Exception as e:
-        # (C) 에러 기록: 에러종류/메시지 + 스택트레이스 자동 포함
+        # (C) 디버깅 핵심: 에러 종류/메시지 + 스택트레이스 기록
+        # logger.exception은 현재 예외의 traceback을 자동으로 로그에 포함합니다.
         logger.exception(
             f"FAIL /classify | text='{text}' | error={type(e).__name__}: {e}"
         )
+
+        # (D) GitHub Issue 자동 생성 로직
+        # 전체 스택트레이스 내용을 문자열로 가져옵니다.
+        tb = traceback.format_exc()
+        title = f"[Prod Error] /classify failed: {type(e).__name__}"
+        body = (
+            f"## Summary\n"
+            f"- endpoint: /classify\n"
+            f"- input(text, short): `{text}`\n"
+            f"- input length: {len(text)}\n\n"
+            f"## Exception\n"
+            f"- type: {type(e).__name__}\n"
+            f"- message: {str(e)}\n\n"
+            f"## Traceback (line info)\n"
+            f"```text\n{tb}\n```"
+        )
         
-        # (D) 에러 발생 시 사용자 응답
-        return {
-            "label": "Internal Server Error", 
-            "score": -1
-        }
+        # 앞서 정의한 GitHub Issue 생성 함수 호출
+        create_github_issue(title, body, logger)
+
+        # (E) 사용자 응답은 상세한 에러 대신 심플하게 반환
+        return {"label": "Internal Server Error", "score": -1}
 
 
 # 실행은 운영환경의 책임으로 남기기 위해 만들지 X
