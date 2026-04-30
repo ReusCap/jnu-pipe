@@ -29,6 +29,8 @@ class ClassifyRequest(BaseModel):
 #     payload = await request.json()
 async def classify(payload: ClassifyRequest):
     text = payload.text
+    if text="crash":
+        raise RuntimeError("의도적 장애 추가")
     label, score = check_spam(text)
 
     return {
