@@ -38,8 +38,9 @@
             document.getElementById("result").innerText =
               "결과: " + data.label + " (score=" + data.score + ")";
           })
-          .catch(() => {
-            document.getElementById("result").innerText = "에러발생";
+          .catch((err) => {
+            console.error("classify error:", err);
+            document.getElementById("result").innerText = "에러발생: " + err.message;
           });
       }
     </script>

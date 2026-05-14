@@ -1,7 +1,9 @@
+from app.config import MODEL_MODE
+from app.spam import check_spam_rules, check_spam_ml
+
 from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from app.spam import check_spam
 from pydantic import BaseModel
 import logging
 from app.issue import *
@@ -38,26 +40,23 @@ class ClassifyRequest(BaseModel):
 # classify 요청이 올 때 할 일
 # async: 비동기 처리 (서버가 요청 기다리는 동안 다른 요청도 처리 가능)
 @app.post("/classify")
-# async def classify(request: Request):
-#     payload = await request.json()
-@app.post("/classify")
 async def classify(payload: ClassifyRequest):
     text = payload.text
     
     # (A) 요청 기록: 언제(로그시간) / 무엇(endpoint) / 어떤입력
     logger.info(f"CALL /classify | text='{text}' | len={len(text)}")
     
-    try:          
-        label, score = check_spam(text)
-        
-        # (B) 정상 처리 결과 기록
+    try:
+        # label, score = check_spam(text)
+        if MODEL_MODE == "ml":
+            label, score = check_spam_ml(text)
+        else:
+            label, score = check_spam_rules(text)
+
+        # (B) 정상 처리 결과도 짧게 기록
         logger.info(f"OK /classify | label={label} score={score}")
-        
-        # 정상 반환 (try 블록 안에서 결과가 있을 때 실행)
-        return {
-            "label": label, 
-            "score": score
-        }
+
+        return {"label": label, "score": score}
 
     except Exception as e:
         # (C) 디버깅 핵심: 에러 종류/메시지 + 스택트레이스 기록

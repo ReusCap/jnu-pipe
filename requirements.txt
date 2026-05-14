@@ -5,3 +5,5 @@ pydantic==2.12.5
 pytest==9.0.2
 httpx==0.28.1
 requests==2.33.1
+scikit-learn==1.7.2
+mlflow==3.12.0
