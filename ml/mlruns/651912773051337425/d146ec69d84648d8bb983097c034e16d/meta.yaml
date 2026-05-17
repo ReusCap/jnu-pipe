@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/TaeeunPark/pipeline/1_initial%20SpamCheck/ml/mlruns/651912773051337425/d146ec69d84648d8bb983097c034e16d/artifacts
+end_time: 1779008578673
+entry_point_name: ''
+experiment_id: '651912773051337425'
+lifecycle_stage: active
+run_id: d146ec69d84648d8bb983097c034e16d
+run_name: secretive-carp-39
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1779008573235
+status: 3
+tags: []
+user_id: nick9

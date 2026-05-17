@@ -1,4 +1,5 @@
 import os
+import sys
 import joblib
 import pandas as pd
 import mlflow
@@ -7,6 +8,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from app.config import MODEL_URI, MLFLOW_TRACKING_URI
 
 # 경로 설정
 BASE_DIR = os.path.dirname(__file__)
@@ -17,7 +21,7 @@ MODEL_PATH = os.path.join(ARTIFACT_DIR, "spam_model.joblib")
 os.makedirs(ARTIFACT_DIR, exist_ok=True)
 
 # MLflow 실험 세팅
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 mlflow.set_experiment("spam-classification-local")
 
 # 데이터 로드
@@ -54,7 +58,7 @@ with mlflow.start_run():
     mlflow.log_artifact(MODEL_PATH)  # 저장된 joblib 파일 로깅
 
     # 5. MLflow Model Format으로 저장 (서빙 및 재사용 용이)
-    mlflow.sklearn.log_model(pipeline, artifact_path="model")
+    mlflow.sklearn.log_model(pipeline, name="model", registered_model_name="spam-model")
 
     print(f"Model saved to: {MODEL_PATH}")
     print(f"Train Accuracy: {acc:.4f}")

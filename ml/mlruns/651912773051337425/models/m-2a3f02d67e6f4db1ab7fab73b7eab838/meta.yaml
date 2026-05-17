@@ -1,0 +1,10 @@
+artifact_location: file:///C:/TaeeunPark/pipeline/1_initial%20SpamCheck/ml/mlruns/651912773051337425/models/m-2a3f02d67e6f4db1ab7fab73b7eab838/artifacts
+creation_timestamp: 1779008573378
+experiment_id: '651912773051337425'
+last_updated_timestamp: 1779008578589
+model_id: m-2a3f02d67e6f4db1ab7fab73b7eab838
+model_type: null
+name: model
+source_run_id: d146ec69d84648d8bb983097c034e16d
+status: 2
+status_message: null

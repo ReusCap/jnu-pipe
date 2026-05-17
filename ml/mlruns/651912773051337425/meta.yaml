@@ -1,0 +1,8 @@
+artifact_location: file:///C:/TaeeunPark/pipeline/1_initial%20SpamCheck/ml/mlruns/651912773051337425
+creation_time: 1779008572764
+experiment_id: '651912773051337425'
+last_update_time: 1779008572764
+lifecycle_stage: active
+name: spam-classification-local
+trace_location: null
+workspace: default

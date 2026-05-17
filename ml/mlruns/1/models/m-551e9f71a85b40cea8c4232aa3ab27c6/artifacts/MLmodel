@@ -1,0 +1,23 @@
+artifact_path: file:///C:/TaeeunPark/pipeline/1_initial SpamCheck/ml/mlruns/1/models/m-551e9f71a85b40cea8c4232aa3ab27c6/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.19
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+    skops_trusted_types: null
+mlflow_version: 3.12.0
+model_id: m-551e9f71a85b40cea8c4232aa3ab27c6
+model_size_bytes: 1640
+model_uuid: m-551e9f71a85b40cea8c4232aa3ab27c6
+prompts: null
+run_id: 18c910ec9a4a4dc28f3f94a22c2e10e4
+utc_time_created: '2026-05-17 09:26:32.817624'
